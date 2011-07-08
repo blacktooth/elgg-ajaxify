@@ -19,6 +19,9 @@ function ajaxify_init() {
 	$cached_url = elgg_get_simplecache_url('js', 'pagination_ajaxify');
 	elgg_register_js('elgg.ajaxify.pagination', $cached_url, 'footer');
 	
+	$cached_url = elgg_get_simplecache_url('js', 'profile_ajaxify');
+	elgg_register_js('elgg.ajaxify.profile', $cached_url, 'footer');
+
 	elgg_register_js('jquery.livequery', 'mod/elgg-ajaxify/vendors/livequery/jquery.livequery.js', 'footer');
 	elgg_register_js('jquery.URLParser', 'mod/elgg-ajaxify/vendors/jQuery-URL-Parser/jquery.url.js', 'footer');
 	elgg_register_js('jquery.autocomplete.html_extension', 'mod/elgg-ajaxify/vendors/jQuery-ui/jquery-ui-autocomplete-html-extension/jquery.ui.autocomplete.html.js', 'footer');
@@ -42,6 +45,7 @@ function ajaxify_init() {
 	elgg_load_js('elgg.ajaxify.search');
 	elgg_load_js('elgg.ajaxify.messages');
 	elgg_load_js('elgg.ajaxify.pagination');
+	elgg_load_js('elgg.ajaxify.profile');
 	
 	elgg_load_css('jquery.ui');
 }
