@@ -53,6 +53,7 @@ elgg.ajaxify.search.read_submit = function(hook, type, params, value) {
 		case 'thewire':
 			forward_url = params.type+'/thread/'+guid;
 			break;
+		case 'friends':
 		case 'members': 
 			forward_url = '/profile/'+desc;
 			break;
