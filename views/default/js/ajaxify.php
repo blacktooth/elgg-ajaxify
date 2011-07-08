@@ -116,4 +116,20 @@ elgg.ajaxify.getViewFromURL = function(value) {
 	return viewname;
 };
 
+/** 
+* Replace parts of the given attribute of a DOM
+*
+* @todo Add Regex matching
+*
+* @param dom {Object} selector string or a jQuery Object
+* @param attribute {String} attribute of the DOM to change
+* @param match {String} pattern to match
+* @param replace {String} string to replace with
+* @return void
+*/
+
+elgg.ajaxify.attrReplace = function(dom, attribute, match, replace) {
+	$(dom).attr(attribute, $(this).attr(attribute).replace(match, replace));
+};
+
 elgg.register_hook_handler('init', 'system', elgg.ajaxify.init);
