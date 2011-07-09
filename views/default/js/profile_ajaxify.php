@@ -10,28 +10,39 @@ elgg.ajaxify.profile.init = function() {
 		});
 		return false;
 	});
+	$('.elgg-button-action-removefriend').livequery('click', function() {
+		elgg.trigger_hook('update:submit', 'profile', {'type': 'removefriend'}, {
+			'link': $(this),
+		});
+		elgg.trigger_hook('update:success', 'profile', {'type': 'removefriend'}, {
+			'link': $(this),
+		});
+		return false;
+	});
 };
 
 elgg.ajaxify.profile.update_submit = function(hook, type, params, value) {
-	if (params.type === 'addfriend') {
-		$(value.link).after(elgg.ajaxify.ajaxLoader);
-	}
+	$(value.link).after(elgg.ajaxify.ajaxLoader);
 };
 
-//Incomplete
 elgg.ajaxify.profile.update_success = function(hook, type, params, value) {
-	if (params.type === 'addfriend') {
-		elgg.action($(value.link).url(), {
-			data: {
-				friend: $(value.link).url().param('friend'),
-			},
-			success: function() {
-				elgg.ajaxify.ajaxLoader.remove();
+	elgg.action($(value.link).url().attr('source'), {
+		data: {
+			friend: $(value.link).url().param('friend'),
+		},
+		success: function() {
+			elgg.ajaxify.ajaxLoader.remove();
+			if (params.type === 'addfriend') {
 				$(value.link).html(elgg.echo('friend:remove'));
-				elgg.ajaxify.attrReplace($(value.link), 'href', 'friends/add', 'friends/remove');
-			},
-		});
-	}
+				$(value.link).replaceAttr('href', 'friends/add', 'friends/remove');
+				$(value.link).replaceAttr('class', 'action-addfriend', 'action-removefriend');
+			} else if (params.type === 'removefriend') {
+				$(value.link).html(elgg.echo('friend:add'));
+				$(value.link).replaceAttr('href', 'friends/remove', 'friends/add');
+				$(value.link).replaceAttr('class', 'action-removefriend', 'action-addfriend');
+			}
+		},
+	});
 };
 
 elgg.register_hook_handler('update:submit', 'profile', elgg.ajaxify.profile.update_submit); 
