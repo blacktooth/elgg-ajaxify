@@ -20,8 +20,11 @@ elgg.ajaxify.search.init = function() {
 				success: function(response) {
 					res($.map(response, function(result) {
 						return {
-							//Todo trigger a handler to return subtype specific label
-							label: result.icon+" <a>"+result.name+"</a><br />"+result.desc.substr(0, elgg.ajaxify.search.strip_desc)+"...",
+							label: function() { 
+								return elgg.trigger_hook('update:submit', 'search', {'type': elgg.ajaxify.search.context}, {
+									result: result,
+								});
+							},
 							attributes: result,
 						}
 					}));
@@ -37,6 +40,57 @@ elgg.ajaxify.search.init = function() {
 	});
 };
 
+//Handler for modifying the markup of results that are shown in the search popup
+elgg.ajaxify.search.update_submit = function(hook, type, params, value) {
+	var guid = value.result.guid;
+	var name = value.result.name;
+	var desc = value.result.desc;
+	var icon = value.result.icon;
+	var entity_type = value.result.type;
+	var user_icon = value.result.user_icon;
+	var user_name = value.result.user_name;
+	var label = '';
+	switch (params.type) {
+		case 'blog': 
+		case 'pages':
+			label = user_icon+"<h4>"+name+"</h4>"+desc.substr(0, elgg.ajaxify.search.strip_desc)+"...";
+			break;
+		case 'thewire':
+			label = user_icon+" "+user_name+"<h6>"+desc.substr(0, elgg.ajaxify.search.strip_desc)+"...</h6>";
+			break;
+		case 'file':
+			label = icon+"<h4>"+name+"</h4>";
+			break;
+		case 'bookmarks':
+			label = user_icon+"<h4>"+name+"</h4>";
+			break;
+		case 'friends':
+		case 'members':
+			label = icon+"<h4>"+name+"</h4>"
+			break;
+		case 'groups':
+			label = icon+" "+name+"<h6>"+desc.substr(0, elgg.ajaxify.search.strip_desc)+"...</h6>";
+			break;
+		case 'messages':
+			label = user_icon+" <h6>"+name;
+			break;
+		case 'all':
+			switch (entity_type) {
+				case 'user': 
+					label = icon+"<h4>"+name+"</h4>"
+					break;
+				case 'group':
+					label = icon+" "+name+"<h6>"+desc.substr(0, elgg.ajaxify.search.strip_desc)+"...</h6>";
+					break;
+			}	
+			break;
+		default:
+			label = icon+" "+name;
+	}
+	return label;
+};
+
+//Handler for specifying forward url to which the user has to be redirected upon clicking a result
 elgg.ajaxify.search.read_submit = function(hook, type, params, value) {
 	var forward_url = '';
 	var guid = value.ui.item.attributes.guid;
@@ -73,9 +127,12 @@ elgg.ajaxify.search.read_submit = function(hook, type, params, value) {
 					break;
 			}	
 			break;
+		default:
+			forward_url = 'search?q='+name;
 	}
 	elgg.forward(elgg.normalize_url(forward_url));
 };
 
+elgg.register_hook_handler('update:submit', 'search', elgg.ajaxify.search.update_submit); 
 elgg.register_hook_handler('read:submit', 'search', elgg.ajaxify.search.read_submit); 
 elgg.register_hook_handler('init', 'system', elgg.ajaxify.search.init);
