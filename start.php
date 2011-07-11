@@ -34,6 +34,7 @@ function ajaxify_init() {
 	//Override the default actions
 	elgg_register_action('entity/delete', dirname(__FILE__) . "/actions/entities/delete.php");
 	elgg_register_action('thewire/add', dirname(__FILE__) . "/actions/thewire/add.php");
+	elgg_register_action('thewire/reply', dirname(__FILE__) . "/actions/thewire/add.php");
 	elgg_register_action('bookmarks/autofill', dirname(__FILE__) . "/actions/bookmarks/autofill.php");
 
 	elgg_load_js('jquery.livequery');
