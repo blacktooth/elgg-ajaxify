@@ -2,16 +2,10 @@ elgg.provide('elgg.ajaxify');
 
 elgg.ajaxify.init = function() {
 	elgg.ajaxify.ajaxLoader = $('<div class=elgg-ajax-loader></div>');
-	$('.elgg-menu-item-likes').live('click', function(event) {
-		elgg.ajaxify.likes.action(this);
-		event.preventDefault();
-	});
+
 	$('.elgg-menu-item-delete').live('click', function(event) {
 		elgg.ajaxify.delete_entity(elgg.ajaxify.getGUIDFromMenuItem(this));
 		event.preventDefault();
-	});
-	$('input[name=address]').live('blur', function(event) {
-		elgg.ajaxify.bookmarks(this);
 	});
 	//Default actions that have to be invoked after a successful AJAX request
 	$(document).ajaxSuccess(function(event, xhr, options) {
