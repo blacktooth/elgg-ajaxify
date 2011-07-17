@@ -83,7 +83,7 @@ elgg.ajaxify.comments.create_success = function(hook, type, params, value) {
 			success: function(response) {
 				var comments_list = $(value.formObj).prevUntil('', 'ul.elgg-river-comments');
 				var comments_len = $(comments_list).children().length;
-				var annotations = $(response).find('.elgg-list-item');
+				var annotations = $(response).find('.elgg-item');
 				elgg.ajaxify.ajaxLoader.remove();
 				if (comments_len) {
 					if (comments_len < 3) {
@@ -121,7 +121,7 @@ elgg.ajaxify.comments.create_success = function(hook, type, params, value) {
 			success: function(response) {
 				var comments_list = $(value.formObj).prevUntil('', 'ul.elgg-annotation-list');
 				var comments_len = $(comments_list).children().length;
-				var annotations = $(response).find('.elgg-list-item');
+				var annotations = $(response).find('.elgg-item');
 				elgg.ajaxify.ajaxLoader.remove();
 				if (comments_len) {
 					$(comments_list).append(annotations);
@@ -167,7 +167,7 @@ elgg.ajaxify.comments.read_success = function(hook, type, params, value) {
 				'order': 'asc',
 			},
 			success: function(response) {
-				var annotations = $(response).find('.elgg-list-item');
+				var annotations = $(response).find('.elgg-item');
 				$(value.link).parent('.elgg-river-more').prevUntil('', '.elgg-river-comments').prepend(annotations);
 
 				if (count > elgg.ajaxify.comments.more_limit) {
