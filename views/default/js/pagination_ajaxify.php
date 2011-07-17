@@ -54,7 +54,7 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 			success: function(response) {
 				var newList = $(response)[0];
 				var newPagination = $(response)[1];
-				$('.elgg-entity-list').replaceWith(newList);
+				$('.elgg-list-entity').replaceWith(newList);
 				$('.elgg-pagination').replaceWith(newPagination);
 				$(elgg.ajaxify.ajaxLoader).remove();
 				$('body').animate({scrollTop: 0}, 'slow');
