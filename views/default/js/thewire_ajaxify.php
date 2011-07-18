@@ -1,23 +1,7 @@
 elgg.provide('elgg.ajaxify.thewire');
 
 elgg.ajaxify.thewire.init = function() {
-	$('.thewire-form').ajaxForm({
-		beforeSubmit: function(arr, formObj, options) {
-			elgg.trigger_hook('create:submit', 'thewire', {'type': 'thewire/add'}, {
-				'arr': arr,
-				'formObj': formObj,
-				'options': options,
-			});
-		},
-		success: function(response, statusText, xhr, formObj) {
-			elgg.trigger_hook('create:success', 'thewire', {'type': 'thewire/add'}, {
-				'response': response,
-				'statusText': statusText,
-				'xhr': xhr,
-				'formObj': formObj,
-			});
-		},
-	});
+	elgg.ajaxify.ajaxForm($('.thewire-form'), 'create', 'thewire', {'type': 'thewire/add'});
 	$('.elgg-menu-item-reply').livequery(function() {
 		$(this).toggle(function() {
 			elgg.ajaxify.thewire.show_replyForm(this);
@@ -36,7 +20,7 @@ elgg.ajaxify.thewire.create_success = function(hook, type, params, value) {
 			cache: false,
 			data: {
 				limit: '1',
-				guid: value.response.output.guid,
+				guid: value.responseText.output.guid,
 				subtype: 'thewire',
 			},
 			success: function(entities_list) {
@@ -53,17 +37,16 @@ elgg.ajaxify.thewire.create_success = function(hook, type, params, value) {
 			cache: false,
 			data: {
 				limit: '1',
-				guid: value.response.output.guid,	
+				guid: value.responseText.output.guid,	
 				subtype: 'thewire',
 			},
 			success: function(entities_list) {
 				var entities = $(entities_list).find('.elgg-item');
 				$('.elgg-list-entity').prepend(entities);
-				$(value.replyDiv).remove();
-				elgg.ajaxify.ajaxLoader.remove();
-				
 				//Simulate click event on close
-				$(value.replyMenuItem).click();
+				$(value.formObj).closest('.elgg-item').find('li.elgg-menu-item-reply').click();
+				$(replyDiv).remove();
+				elgg.ajaxify.ajaxLoader.remove();
 			},
 		});
 	}
@@ -74,8 +57,9 @@ elgg.ajaxify.thewire.create_submit = function(hook, type, params, value) {
 		$('.elgg-list-entity').prepend(elgg.ajaxify.ajaxLoader);
 	}
 	if (params.type === 'thewire/reply') {
-		$(value.replyDiv).before(elgg.ajaxify.ajaxLoader);
-		$(value.replyDiv).hide('fast');
+		replyDiv = $(value.formObj).closest('div[id^=elgg-reply-div]');
+		$(replyDiv).before(elgg.ajaxify.ajaxLoader);
+		$(replyDiv).hide('fast');
 	}
 };
 
@@ -116,32 +100,7 @@ elgg.ajaxify.thewire.show_replyForm = function(item) {
 			$(replyDiv).find('textarea').focus();
 
 			//Makes the reply form submit via XHR
-			$(replyDiv).find('form[id^=thewire-form-reply]').ajaxForm({
-				beforeSubmit: function(arr, formObj, options) {
-					elgg.trigger_hook('create:submit', 'thewire', {'type': 'thewire/reply'}, {
-						'arr': arr,
-						'formObj': formObj,
-						'options': options,
-						'replyDiv': $(replyDiv),
-					});
-				},
-				success: function(response, statusText, xhr, formObj) {
-					elgg.trigger_hook('create:success', 'thewire', {'type': 'thewire/reply'}, {
-						'response': response,
-						'statusText': statusText,
-						'xhr': xhr,
-						'formObj': formObj,
-						'replyDiv': $(replyDiv),
-						'replyMenuItem': $(item),
-					});
-				},
-				error: function(xhr, reqStatus) {
-					elgg.trigger_hook('create:error', 'thewire', {type: 'thewire/reply'}, {
-						replyDiv: $(replyDiv),
-						reqStatus: reqStatus,
-					});
-				},
-			});
+			elgg.ajaxify.ajaxForm($(replyDiv).find('form[id^=thewire-form-reply]'), 'create', 'thewire', {'type': 'thewire/reply'});
 		},
 	});
 };

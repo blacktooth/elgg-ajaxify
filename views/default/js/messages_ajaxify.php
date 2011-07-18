@@ -1,29 +1,7 @@
 elgg.provide('elgg.ajaxify.messages');
 
 elgg.ajaxify.messages.init = function() {
-	$('#messages-inbox-form').ajaxForm({
-		beforeSubmit: function(arr, formObj, options) {
-			elgg.trigger_hook('update:submit', 'messages', {'type': 'inbox'}, {
-				'arr': arr,
-				'formObj': formObj,
-				'options': options,
-			});
-		},
-		success: function(responseText, statusText, xhr, formObj) {
-			elgg.trigger_hook('update:success', 'messages', {'type': 'inbox'}, {
-				'responseText': responseText,
-				'statusText': statusText,
-				'xhr': xhr,
-				'formObj': formObj,
-			});
-		},
-		error: function(xhr, reqStatus) {
-			elgg.trigger_hook('update:error', 'messages', {'type': 'inbox'}, {
-				'reqStatus': reqStatus,
-				'xhr': xhr,
-			});
-		},
-	});
+	elgg.ajaxify.ajaxForm($('#messages-inbox-form'), 'update', 'messages', {'type': 'inbox'});
 };
 
 elgg.ajaxify.messages.update_submit = function(hook, type, params, value) {

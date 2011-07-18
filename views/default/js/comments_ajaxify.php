@@ -3,52 +3,9 @@ elgg.ajaxify.comments.init = function() {
 	//Limit the number of comments that are fetched upon clicking more
 	elgg.ajaxify.comments.more_limit = 50;
 
-	$('form[id^=comments-add-]').ajaxForm({
-		beforeSubmit: function(arr, formObj, options) {
-			elgg.trigger_hook('create:submit', 'comments', {'type': 'river'}, {
-				'arr': arr,
-				'formObj': formObj,
-				'options': options,
-			});
-		},
-		success: function(responseText, statusText, xhr, formObj) {
-			elgg.trigger_hook('create:success', 'comments', {'type': 'river'}, {
-				'responseText': responseText,
-				'statusText': statusText,
-				'xhr': xhr,
-				'formObj': formObj,
-			});
-		},
-		error: function(xhr, reqStatus) {
-			elgg.trigger_hook('create:error', 'comments', {'type': 'river'}, {
-				'reqStatus': reqStatus,
-				'xhr': xhr,
-			});
-		},
-	});
-	$('form[name=elgg_add_comment]').ajaxForm({
-		beforeSubmit: function(arr, formObj, options) {
-			elgg.trigger_hook('create:submit', 'comments', {'type': 'plugin'}, {
-				'arr': arr,
-				'formObj': formObj,
-				'options': options,
-			});
-		},
-		success: function(responseText, statusText, xhr, formObj) {
-			elgg.trigger_hook('create:success', 'comments', {'type': 'plugin'}, {
-				'responseText': responseText,
-				'statusText': statusText,
-				'xhr': xhr,
-				'formObj': formObj,
-			});
-		},
-		error: function(xhr, reqStatus) {
-			elgg.trigger_hook('create:error', 'comments', {'type': 'plugin'}, {
-				'reqStatus': reqStatus,
-				'xhr': xhr,
-			});
-		},
-	});
+	elgg.ajaxify.ajaxForm($('form[id^=comments-add-]'), 'create', 'comments', {'type': 'river'});
+	elgg.ajaxify.ajaxForm($('form[name=elgg_add_comment]'), 'create', 'comments', {'type': 'plugin'});
+
 	$('.elgg-river-more a').live('click', function(event) {
 		elgg.trigger_hook('read:submit', 'comments', {'type': 'river'}, {
 			'link': $(this),
