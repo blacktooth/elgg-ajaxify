@@ -110,6 +110,47 @@ elgg.ajaxify.getViewFromURL = function(value) {
 	return viewname;
 };
 
+/**
+ * Bind form(s) to use jQuery ajaxForm plugin
+ * All the three hooks(submit, success, error) are triggered automatically
+ * 
+ * @params forms {Object} An array of jQuery form objects 
+ * @params action {String} {create|read|update|delete}
+ * @params type {String} type argument of hook handler
+ * @params params {Object} params to hook handler
+ *
+ * The value argument to the hook contains all the default arguments that are available {@see http://jquery.malsup.com/form/#options-object}
+ * @return void
+ */
+
+elgg.ajaxify.ajaxForm = function(forms, action, type, params) {
+	$(forms).each(function() {
+		$(this).ajaxForm({
+			beforeSubmit: function(arr, formObj, options) {
+				elgg.trigger_hook(action+':submit', type, params, {
+					'arr': arr,
+					'formObj': formObj,
+					'options': options,
+				});
+			},
+			success: function(responseText, statusText, xhr, formObj) {
+				elgg.trigger_hook(action+':success', type, params, {
+					'responseText': responseText,
+					'statusText': statusText,
+					'xhr': xhr,
+					'formObj': formObj,
+				});
+			},
+			error: function(xhr, reqStatus) {
+				elgg.trigger_hook(action+':error', type, params, {
+					'reqStatus': reqStatus,
+					'xhr': xhr,
+				});
+			}
+		});
+	});
+};
+
 /** 
 * Replace parts of the given attribute of a DOM
 *
