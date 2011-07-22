@@ -3,30 +3,44 @@ elgg.provide('elgg.ajaxify.bookmarks');
 elgg.ajaxify.bookmarks.init = function() {
 	//@todo Change selector to include form id too -- requires #3535 to be fixed
 	$('input[name=address]').live('blur', function(event) {
-		elgg.trigger_hook('update:submit', 'bookmarks', {'type': 'autofill'}, {
-			'inputObj': $(this)
-		});
+		if ($.trim($(this).val()) !== '') {
+			elgg.trigger_hook('update:submit', 'bookmarks', {'type': 'autofill'}, {
+				'inputObj': $(this)
+			});
+		}
 	});
 };
 
 elgg.ajaxify.bookmarks.update_submit = function(hook, type, params, value) {
 	$(value.inputObj).after(elgg.ajaxify.ajaxLoader);
-	elgg.trigger_hook('update:success', 'bookmarks', {'type': 'autofill'}, {
-		uri: $(value.inputObj).val()
+	elgg.view('bookmarks/autofill', {
+		cache: false,
+		dataType: 'json',
+		data: {
+			uri: $(value.inputObj).val()
+		},
+		success: function(response) {
+			if (response) {
+				elgg.trigger_hook('update:success', 'bookmarks', {'type': 'autofill'}, {
+					responseText: response
+				});
+			}
+		}
 	});
 };
 
 elgg.ajaxify.bookmarks.update_success = function(hook, type, params, value) {
-	elgg.view('bookmarks/autofill', {
-		cache: false,
-		data: {
-			uri: value.uri
-		},
-		success: function(response) {
-			elgg.ajaxify.ajaxLoader.remove();
-			//Incomplete
-		}
-	});
+	elgg.ajaxify.ajaxLoader.remove();
+	$('input[name=title]').val(value.responseText.title);
+	$('input[name=tags]').val(value.responseText.keywords);
+
+	//Check which editor is in use
+	if ($('.mceEditor').length === 1 && value.responseText.description) {
+		tinyMCE.execCommand("mceInsertContent", false, value.responseText.description);
+	} else {
+		$('textarea[name=description]').val(value.responseText.description);
+	}
+
 };
 
 elgg.register_hook_handler('update:submit', 'bookmarks', elgg.ajaxify.bookmarks.update_submit); 
