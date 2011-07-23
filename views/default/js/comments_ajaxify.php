@@ -15,6 +15,13 @@ elgg.ajaxify.comments.init = function() {
 		});
 		return false;
 	});
+	
+	$('li[id^=item-annotation-]').find('.elgg-requires-confirmation').livequery('click', function(event) {
+		elgg.trigger_hook('delete:submit', 'comments', null, {
+			'link': $(this)
+		});
+		return false;
+	});
 };
 
 elgg.ajaxify.comments.create_submit = function(hook, type, params, value) {
@@ -144,9 +151,43 @@ elgg.ajaxify.comments.read_success = function(hook, type, params, value) {
 	}
 };
 
+elgg.ajaxify.comments.delete_submit = function(hook, type, params, value) {
+	var confirmText = $(value.link).attr('rel') || elgg.echo('question:areyousure');
+	if (!confirm(confirmText)) {
+		return false;
+	}
+
+	$(value.link).closest('li[id^=item-annotation-]').slideUp('fast');
+	elgg.action($(value.link).url().attr('source'), {
+		success: function() {
+			elgg.trigger_hook('delete:success', 'comments', null, {
+				'link': $(value.link)
+			});
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			elgg.trigger_hook('delete:error', 'comments', null, {
+				'textStatus': textStatus,
+				'xhr': xhr,
+				'link': $(value.link)
+			});
+		}
+	});
+};
+
+elgg.ajaxify.comments.delete_success = function(hook, type, params, value) {
+};
+
+elgg.ajaxify.comments.delete_error = function(hook, type, params, value) {
+	elgg.register_error(value.textStatus);
+	$(value.link).closest('li[id^=item-annotation-]').slideDown('slow');
+};
+
 elgg.register_hook_handler('create:success', 'comments', elgg.ajaxify.comments.create_success); 
 elgg.register_hook_handler('create:submit', 'comments', elgg.ajaxify.comments.create_submit); 
 elgg.register_hook_handler('create:error', 'comments', elgg.ajaxify.comments.create_error); 
 elgg.register_hook_handler('read:success', 'comments', elgg.ajaxify.comments.read_success); 
 elgg.register_hook_handler('read:submit', 'comments', elgg.ajaxify.comments.read_submit); 
+elgg.register_hook_handler('delete:submit', 'comments', elgg.ajaxify.comments.delete_submit); 
+elgg.register_hook_handler('delete:success', 'comments', elgg.ajaxify.comments.delete_success); 
+elgg.register_hook_handler('delete:error', 'comments', elgg.ajaxify.comments.delete_error); 
 elgg.register_hook_handler('init', 'system', elgg.ajaxify.comments.init);
