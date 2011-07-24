@@ -14,7 +14,7 @@ elgg.ajaxify.search.init = function() {
 				cache: false,
 				data: {
 					'term': req.term,
-					'match_on': elgg.ajaxify.search.context,
+					'match_on': elgg.ajaxify.search.context
 				},
 				dataType: 'json',
 				success: function(response) {
@@ -22,21 +22,21 @@ elgg.ajaxify.search.init = function() {
 						return {
 							label: function() { 
 								return elgg.trigger_hook('update:submit', 'search', {'type': elgg.ajaxify.search.context}, {
-									result: result,
+									result: result
 								});
 							},
-							attributes: result,
+							attributes: result
 						}
 					}));
-				},
+				}
 			});
 		},
 		select: function(event, ui) {
 			elgg.trigger_hook('read:submit', 'search', {'type': elgg.ajaxify.search.context}, {
-				ui: ui,
+				ui: ui
 			});
 			return false;
-		},
+		}
 	});
 };
 

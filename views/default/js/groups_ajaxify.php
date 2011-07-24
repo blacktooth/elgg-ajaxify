@@ -3,19 +3,19 @@ elgg.provide('elgg.ajaxify.groups');
 elgg.ajaxify.groups.init = function() {
 	$('.elgg-menu-item-groups-join a').livequery('click', function() {
 		elgg.trigger_hook('update:submit', 'groups', {'type': 'join'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		elgg.trigger_hook('update:success', 'groups', {'type': 'join'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
 	$('.elgg-menu-item-groups-leave a').livequery('click', function() {
 		elgg.trigger_hook('update:submit', 'groups', {'type': 'leave'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		elgg.trigger_hook('update:success', 'groups', {'type': 'leave'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
@@ -79,7 +79,7 @@ elgg.ajaxify.groups.create_success = function(hook, type, params, value) {
 			data: {
 				'limit': 1,
 				'annotation_name': 'group_topic_post',
-				'guid': guid,
+				'guid': guid
 			},
 			success: function(response) {
 				var replies_list = $(value.formObj).prevUntil('', 'ul.elgg-annotation-list');

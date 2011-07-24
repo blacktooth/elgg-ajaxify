@@ -3,19 +3,19 @@ elgg.provide('elgg.ajaxify.profile');
 elgg.ajaxify.profile.init = function() {
 	$('.elgg-button-action-addfriend').livequery('click', function() {
 		elgg.trigger_hook('update:submit', 'profile', {'type': 'addfriend'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		elgg.trigger_hook('update:success', 'profile', {'type': 'addfriend'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
 	$('.elgg-button-action-removefriend').livequery('click', function() {
 		elgg.trigger_hook('update:submit', 'profile', {'type': 'removefriend'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		elgg.trigger_hook('update:success', 'profile', {'type': 'removefriend'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
@@ -28,7 +28,7 @@ elgg.ajaxify.profile.update_submit = function(hook, type, params, value) {
 elgg.ajaxify.profile.update_success = function(hook, type, params, value) {
 	elgg.action($(value.link).url().attr('source'), {
 		data: {
-			friend: $(value.link).url().param('friend'),
+			friend: $(value.link).url().param('friend')
 		},
 		success: function() {
 			elgg.ajaxify.ajaxLoader.remove();
@@ -41,7 +41,7 @@ elgg.ajaxify.profile.update_success = function(hook, type, params, value) {
 				$(value.link).replaceAttr('href', 'friends/remove', 'friends/add');
 				$(value.link).replaceAttr('class', 'action-removefriend', 'action-addfriend');
 			}
-		},
+		}
 	});
 };
 

@@ -8,10 +8,10 @@ elgg.ajaxify.comments.init = function() {
 
 	$('.elgg-river-more a').live('click', function(event) {
 		elgg.trigger_hook('read:submit', 'comments', {'type': 'river'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		elgg.trigger_hook('read:success', 'comments', {'type': 'river'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
@@ -42,7 +42,7 @@ elgg.ajaxify.comments.create_success = function(hook, type, params, value) {
 			data: {
 				'limit': 1,
 				'annotation_name': 'generic_comment',
-				'guid': guid,
+				'guid': guid
 			},
 			success: function(response) {
 				var comments_list = $(value.formObj).prevUntil('', 'ul.elgg-river-comments');
@@ -70,7 +70,7 @@ elgg.ajaxify.comments.create_success = function(hook, type, params, value) {
 				}
 				//Reset the form
 				$(value.formObj).resetForm();
-			},
+			}
 		});
 	}
 	if (params.type === 'plugin') {
@@ -80,7 +80,7 @@ elgg.ajaxify.comments.create_success = function(hook, type, params, value) {
 			data: {
 				'limit': 1,
 				'annotation_name': 'generic_comment',
-				'guid': guid,
+				'guid': guid
 			},
 			success: function(response) {
 				var comments_list = $(value.formObj).prevUntil('', 'ul.elgg-annotation-list');
@@ -128,7 +128,7 @@ elgg.ajaxify.comments.read_success = function(hook, type, params, value) {
 				'limit': (count < elgg.ajaxify.comments.more_limit)?count:elgg.ajaxify.comments.more_limit,
 				'annotation_name': 'generic_comment',
 				'guid': guid,
-				'order': 'asc',
+				'order': 'asc'
 			},
 			success: function(response) {
 				var annotations = $(response).find('.elgg-item');
@@ -146,7 +146,7 @@ elgg.ajaxify.comments.read_success = function(hook, type, params, value) {
 				$(value.link).parent('.elgg.river-more').show();
 				elgg.ajaxify.ajaxLoader.remove();
 				window.location = $(value.link).attr('href');
-			},
+			}
 		});
 	}
 };

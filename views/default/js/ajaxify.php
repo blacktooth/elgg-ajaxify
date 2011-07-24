@@ -130,7 +130,7 @@ elgg.ajaxify.ajaxForm = function(forms, action, type, params) {
 				elgg.trigger_hook(action+':submit', type, params, {
 					'arr': arr,
 					'formObj': formObj,
-					'options': options,
+					'options': options
 				});
 			},
 			success: function(responseText, statusText, xhr, formObj) {
@@ -138,13 +138,13 @@ elgg.ajaxify.ajaxForm = function(forms, action, type, params) {
 					'responseText': responseText,
 					'statusText': statusText,
 					'xhr': xhr,
-					'formObj': formObj,
+					'formObj': formObj
 				});
 			},
 			error: function(xhr, reqStatus) {
 				elgg.trigger_hook(action+':error', type, params, {
 					'reqStatus': reqStatus,
-					'xhr': xhr,
+					'xhr': xhr
 				});
 			}
 		});

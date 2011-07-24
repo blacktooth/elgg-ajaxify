@@ -6,7 +6,7 @@ elgg.ajaxify.likes.init = function(hook, type, params, value) {
 
 	$('.elgg-menu-item-likes a').live('click', function(event) {
 		elgg.trigger_hook('update:submit', 'likes', {'type': 'entity_menu'}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
@@ -25,7 +25,7 @@ elgg.ajaxify.likes.update_submit = function(hook, type, params, value) {
 		},
 		error: function() {
 			elgg.trigger_hook('update:error', 'likes', {'type': 'entity_menu'}, {
-				'link': $(value.link),
+				'link': $(value.link)
 			});
 		}
 	});

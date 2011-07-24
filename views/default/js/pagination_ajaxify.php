@@ -7,10 +7,10 @@ elgg.ajaxify.pagination.init = function() {
 
 	$('.elgg-pagination a').live('click', function(event) {
 		elgg.trigger_hook('read:submit', 'pagination', {'type': elgg.ajaxify.pagination.context}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		elgg.trigger_hook('read:success', 'pagination', {'type': elgg.ajaxify.pagination.context}, {
-			'link': $(this),
+			'link': $(this)
 		});
 		return false;
 	});
@@ -30,7 +30,7 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 				type: $.url().param('type') || 'all',
 				subtype: $.url().param('subtype') || '',
 				page_type: elgg.ajaxify.getViewFromURL('').split('/')[1] || '',
-				offset: $(value.link).url().param('offset') || '', 
+				offset: $(value.link).url().param('offset') || '' 
 			},
 			success: function(response) {
 				var newRiver = $(response)[0];
@@ -39,7 +39,7 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 				$('.elgg-pagination').replaceWith(newPagination);
 				$(elgg.ajaxify.ajaxLoader).remove();
 				$('body').animate({scrollTop: 0}, 'slow');
-			},
+			}
 		});
 	} else {
 		elgg.view('entities/getentity', {
@@ -49,7 +49,7 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 				limit: 15,
 				page_type: elgg.ajaxify.getViewFromURL('').split('/')[1] || '',
 				pagination: 'TRUE',
-				offset: $(value.link).url().param('offset') || '',
+				offset: $(value.link).url().param('offset') || ''
 			},
 			success: function(response) {
 				var newList = $(response)[0];
@@ -58,7 +58,7 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 				$('.elgg-pagination').replaceWith(newPagination);
 				$(elgg.ajaxify.ajaxLoader).remove();
 				$('body').animate({scrollTop: 0}, 'slow');
-			},
+			}
 		});
 	}
 };
