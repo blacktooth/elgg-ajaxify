@@ -28,9 +28,13 @@ function ajaxify_init() {
 	$cached_url = elgg_get_simplecache_url('js', 'bookmarks_ajaxify');
 	elgg_register_js('elgg.ajaxify.bookmarks', $cached_url, 'footer');
 
+	$cached_url = elgg_get_simplecache_url('js', 'registration_ajaxify');
+	elgg_register_js('elgg.ajaxify.registration', $cached_url, 'footer');
+
 	elgg_register_js('jquery.livequery', 'mod/ajaxify/vendors/livequery/jquery.livequery.js', 'footer');
 	elgg_register_js('jquery.URLParser', 'mod/ajaxify/vendors/jQuery-URL-Parser/jquery.url.js', 'footer');
 	elgg_register_js('jquery.autocomplete.html_extension', 'mod/ajaxify/vendors/jQuery-ui/jquery-ui-autocomplete-html-extension/jquery.ui.autocomplete.html.js', 'footer');
+	elgg_register_js('jquery.pstrength', 'mod/ajaxify/vendors/jQuery-password-strength/source/pstrength.min.js', 'footer');
 
 	//Register css
 	elgg_register_css('jquery.ui', 'mod/ajaxify/vendors/jQuery-ui/css/overcast/jquery-ui-1.8.14.custom.css');
@@ -45,6 +49,7 @@ function ajaxify_init() {
 
 	elgg_load_js('jquery.livequery');
 	elgg_load_js('jquery.URLParser');
+	elgg_load_js('jquery.pstrength');
 	elgg_load_js('jquery.autocomplete.html_extension');
 	elgg_load_js('elgg.ajaxify');
 	elgg_load_js('elgg.ajaxify.likes');
@@ -55,6 +60,7 @@ function ajaxify_init() {
 	elgg_load_js('elgg.ajaxify.profile');
 	elgg_load_js('elgg.ajaxify.groups');
 	elgg_load_js('elgg.ajaxify.bookmarks');
+	elgg_load_js('elgg.ajaxify.registration');
 	
 	elgg_load_css('jquery.ui');
 }
