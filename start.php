@@ -40,6 +40,7 @@ function ajaxify_init() {
 	elgg_register_css('jquery.ui', 'mod/ajaxify/vendors/jQuery-ui/css/overcast/jquery-ui-1.8.14.custom.css');
 	//Extend the default javascript views
 	elgg_extend_view('js/thewire', 'js/thewire_ajaxify');
+	elgg_extend_view('css', 'users/css');
 
 	//Override the default actions
 	elgg_register_action('entity/delete', dirname(__FILE__) . "/actions/entities/delete.php");
