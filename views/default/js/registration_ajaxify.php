@@ -1,18 +1,18 @@
 elgg.provide('elgg.ajaxify.registration');
 
 elgg.ajaxify.registration.init = function() {
-	$('input[name=password]').pstrength({
+	$('.elgg-form-account input[name=password]').pstrength({
 		'displayMinChar': false,
 		'minChar': 6
 	});
 	
-	$('input[name=username]').live('blur', function() {
+	$('.elgg-form-account input[name=username]').live('blur', function() {
 		elgg.trigger_hook('read:submit', 'registration', {type: 'checkusername'}, {
 			usernameDOM: $(this)
 		});
 	});
 
-	$('input[name=username]').live('focus', function() {
+	$('.elgg-form-account input[name=username]').live('focus', function() {
 		$('.username-status').remove();
 	});
 };
