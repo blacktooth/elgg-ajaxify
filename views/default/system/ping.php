@@ -16,6 +16,15 @@ if (elgg_is_xhr()) {
 					$token = generate_action_token($ts);
 					$__elgg_client_results[$request_id] = array('__elgg_ts' => $ts, '__elgg_token' => $token);
 					break;
+				case 'view':
+					//view, {name: 'viewname', vars: {var1: 'value1', ...}}
+					if (isset($request[1]['name'])) {
+						if (!isset($request[1]['vars'])) {
+							$request[1]['vars'] = array();
+						}
+						$__elgg_client_results[$request_id] = elgg_view($request[1]['name'], $request[1]['vars']);
+					}
+					break;
 			}
 		}
 		echo json_encode($__elgg_client_results);
