@@ -21,5 +21,5 @@ elgg.ajaxify.security.ping_success = function(hook, type, params, value) {
 	elgg.security.setToken(tokens);
 };
 
-elgg.register_hook_handler('ping:submit', 'system', elgg.ajaxify.security.ping_submit); 
-elgg.register_hook_handler('ping:success', 'system', elgg.ajaxify.security.ping_success); 
+elgg.register_hook_handler('ping:submit', 'system', elgg.ajaxify.security.ping_submit, 1000); 
+elgg.register_hook_handler('ping:success', 'system', elgg.ajaxify.security.ping_success, 1000); 
