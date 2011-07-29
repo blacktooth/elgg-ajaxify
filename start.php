@@ -34,6 +34,9 @@ function ajaxify_init() {
 	$cached_url = elgg_get_simplecache_url('js', 'refresh_ajaxify');
 	elgg_register_js('elgg.ajaxify.refresh', $cached_url, 'footer');
 
+	$cached_url = elgg_get_simplecache_url('js', 'river_ajaxify');
+	elgg_register_js('elgg.ajaxify.river', $cached_url, 'footer');
+
 	$cached_url = elgg_get_simplecache_url('js', 'security_ajaxify');
 	elgg_register_js('elgg.ajaxify.security', $cached_url, 'footer');
 
@@ -69,6 +72,7 @@ function ajaxify_init() {
 	elgg_load_js('elgg.ajaxify.bookmarks');
 	elgg_load_js('elgg.ajaxify.registration');
 	elgg_load_js('elgg.ajaxify.refresh');
+	elgg_load_js('elgg.ajaxify.river');
 	elgg_load_js('elgg.ajaxify.security');
 	
 	elgg_load_css('jquery.ui');

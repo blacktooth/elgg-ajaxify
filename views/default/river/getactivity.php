@@ -10,6 +10,8 @@ $options = array();
 $type = elgg_extract('type', $vars, 'all');
 $subtype = elgg_extract('subtype', $vars, '');
 $page_type = elgg_extract('page_type', $vars, '');
+$posted_time_lower = (int) elgg_extract('posted_time_lower', $vars, false); 
+$posted_time_upper = (int) elgg_extract('posted_time_upper', $vars, false);
 
 if ($subtype) {
 	$selector = "type=$type&subtype=$subtype";
@@ -22,6 +24,14 @@ if ($type != 'all') {
 	if ($subtype) {
 		$options['subtype'] = $subtype;
 	}
+}
+
+if ($posted_time_lower) {
+	$options['posted_time_lower'] = $posted_time_lower;
+}
+
+if ($posted_time_upper) {
+	$options['posted_time_upper'] = $posted_time_upper;
 }
 
 switch ($page_type) {
