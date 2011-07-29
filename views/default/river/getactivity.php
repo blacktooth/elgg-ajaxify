@@ -7,9 +7,9 @@
 
 $options = array();
 
-$type = get_input('type', 'all');
-$subtype = get_input('subtype', '');
-$page_type = get_input('page_type', '');
+$type = elgg_extract('type', $vars, 'all');
+$subtype = elgg_extract('subtype', $vars, '');
+$page_type = elgg_extract('page_type', $vars, '');
 
 if ($subtype) {
 	$selector = "type=$type&subtype=$subtype";
