@@ -6,7 +6,7 @@
 $english = array(
 	"entity:delete:success" => "The %s post has been deleted successfully!",
 	"entity:delete:error" => "There is some error while deleting your %s post!",
-	
+	"ping:error" => "Oops...Error contacting ". elgg_get_site_url() .". Please check your Internet connection! Next attempt in %d %s!",
 );
 
 add_translation('en', $english);
