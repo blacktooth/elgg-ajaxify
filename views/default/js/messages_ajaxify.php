@@ -48,7 +48,7 @@ elgg.ajaxify.messages.ping_submit = function(hook, type, params, value) {
 elgg.ajaxify.messages.ping_success = function(hook, type, params, value) {
 	var unread = value.__elgg_client_results[elgg.ajaxify.messages.requestID];
 	if (elgg.ajaxify.messages.msg_counter.length > 0) {
-		$(elgg.ajaxify.messages.msg_counter).replaceWith(unread);
+		$('.elgg-menu-item-messages').find('.messages-new').replaceWith(unread);
 	} else {
 		$('.elgg-menu-item-messages a').append(unread);
 	}
