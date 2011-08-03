@@ -28,9 +28,6 @@ function ajaxify_init() {
 	$cached_url = elgg_get_simplecache_url('js', 'bookmarks_ajaxify');
 	elgg_register_js('elgg.ajaxify.bookmarks', $cached_url, 'footer');
 
-	$cached_url = elgg_get_simplecache_url('js', 'registration_ajaxify');
-	elgg_register_js('elgg.ajaxify.registration', $cached_url, 'footer');
-
 	$cached_url = elgg_get_simplecache_url('js', 'refresh_ajaxify');
 	elgg_register_js('elgg.ajaxify.refresh', $cached_url, 'footer');
 
@@ -49,7 +46,7 @@ function ajaxify_init() {
 	elgg_register_css('jquery.ui', 'mod/ajaxify/vendors/jQuery-ui/css/overcast/jquery-ui-1.8.14.custom.css');
 	//Extend the default javascript views
 	elgg_extend_view('js/thewire', 'js/thewire_ajaxify');
-	elgg_extend_view('css', 'users/css');
+	elgg_extend_view('forms/register', 'js/registration_ajaxify');
 
 	//Override the default actions
 	elgg_register_action('entity/delete', dirname(__FILE__) . "/actions/entities/delete.php");
@@ -70,7 +67,6 @@ function ajaxify_init() {
 	elgg_load_js('elgg.ajaxify.profile');
 	elgg_load_js('elgg.ajaxify.groups');
 	elgg_load_js('elgg.ajaxify.bookmarks');
-	elgg_load_js('elgg.ajaxify.registration');
 	elgg_load_js('elgg.ajaxify.refresh');
 	elgg_load_js('elgg.ajaxify.river');
 	elgg_load_js('elgg.ajaxify.security');
