@@ -42,9 +42,9 @@ elgg.ajaxify.refresh.ping_error = function(hook, type, params, value) {
 	}
 
 	if (elgg.ajaxify.refresh.retryInterval < 2 * 60 * 1000) {
-		elgg.register_error(elgg.echo('ping:error', [elgg.ajaxify.refresh.retryInterval / 1000, 'seconds']));
+		elgg.register_error(elgg.echo('ping:error', [elgg.ajaxify.refresh.retryInterval / 1000, elgg.echo('time:seconds')]));
 	} else {
-		elgg.register_error(elgg.echo('ping:error', [Math.floor(elgg.ajaxify.refresh.retryInterval / 1000 / 60), 'minutes']));
+		elgg.register_error(elgg.echo('ping:error', [Math.floor(elgg.ajaxify.refresh.retryInterval / 1000 / 60), elgg.echo('time:minutes')]));
 	}
 };
 
@@ -54,6 +54,7 @@ elgg.ajaxify.refresh.ping_success = function(hook, type, params, value) {
 		elgg.ajaxify.refresh.pingError = false;
 		clearTimeout(elgg.ajaxify.refresh.timer);
 		elgg.ajaxify.refresh.setup(elgg.security.interval);
+		elgg.system_message(elgg.echo('ping:success'));
 	}
 };
 
