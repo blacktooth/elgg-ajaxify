@@ -3,10 +3,6 @@ elgg.provide('elgg.ajaxify');
 elgg.ajaxify.init = function() {
 	elgg.ajaxify.ajaxLoader = $('<div class=elgg-ajax-loader></div>');
 
-	$('.elgg-menu-item-delete').live('click', function(event) {
-		elgg.ajaxify.delete_entity(elgg.ajaxify.getGUIDFromMenuItem(this));
-		event.preventDefault();
-	});
 	//Default actions that have to be invoked after a successful AJAX request
 	$(document).ajaxSuccess(function(event, xhr, options) {
 		//Check for any system messages
@@ -64,29 +60,6 @@ elgg.ajaxify.delete_entity = function(guid) {
 	}
 	$('#elgg-object-'+guid).slideUp();
 	return elgg.action('entity/delete', {guid: guid});
-};
-
-/**
- * Get URL from ElggMenuItem 
- *
- * @param item {Object} List item 
- * @return URL {String}
- */
-
-elgg.ajaxify.getURLFromMenuItem = function(item) {
-	var actionURL = $(item).find('a').attr('href');
-	return actionURL;
-};
-
-/**
- * Parse guid from ElggMenuItem 
- *
- * @param item {Object} List item 
- * @return guid {String}
- */
-
-elgg.ajaxify.getGUIDFromMenuItem = function(item) {
-	return elgg.ajaxify.getURLFromMenuItem(item).match(/guid=(\d+)/)[1];
 };
 
 /**
