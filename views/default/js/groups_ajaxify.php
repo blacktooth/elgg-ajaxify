@@ -1,5 +1,15 @@
 elgg.provide('elgg.ajaxify.groups');
 
+/**
+ * @namespace 
+ */
+
+elgg.ajaxify.groups = elgg.ajaxify.groups || {};
+
+/**
+ * All groups plugin related initializations
+ */
+
 elgg.ajaxify.groups.init = function() {
 	$('.elgg-menu-item-groups-join a').livequery('click', function() {
 		elgg.trigger_hook('update:submit', 'groups', {'type': 'join'}, {
@@ -26,6 +36,15 @@ elgg.ajaxify.groups.init = function() {
 	elgg.ajaxify.ajaxForm($('#group-replies form'), 'create', 'groups', {'type': 'reply'});
 };
 
+/**
+ * Throw up the AJAXLoader
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.groups.update_submit = function(hook, type, params, value) {
 	if (params.type === 'join' || 'leave') {
 		$(value.link).after(elgg.ajaxify.ajaxLoader);
@@ -34,6 +53,15 @@ elgg.ajaxify.groups.update_submit = function(hook, type, params, value) {
 		$(value.formObj).after(elgg.ajaxify.ajaxLoader);
 	}
 };
+
+/**
+ * Reverse the actions of buttons after a successful update
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.groups.update_success = function(hook, type, params, value) {
 	if (params.type === 'join' || 'leave') {
@@ -58,6 +86,15 @@ elgg.ajaxify.groups.update_success = function(hook, type, params, value) {
 	}
 };
 
+/**
+ * Handle any errors during update
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.groups.update_error = function(hook, type, params, value) {
 	if (params.type === 'invite') {
 		elgg.register_error(value.reqStatus);
@@ -65,11 +102,29 @@ elgg.ajaxify.groups.update_error = function(hook, type, params, value) {
 	}
 };
 
+/**
+ * Show the AJAXLoader before submitting the reply form
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.groups.create_submit = function(hook, type, params, value) {
 	if (params.type === 'reply') {
 		$(value.formObj).before(elgg.ajaxify.ajaxLoader);
 	}
 };
+
+/**
+ * Update the annotation list by appending the posted reply
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.groups.create_success = function(hook, type, params, value) {
 	if (params.type === 'reply') {
@@ -98,6 +153,15 @@ elgg.ajaxify.groups.create_success = function(hook, type, params, value) {
 		});
 	}
 };
+
+/**
+ * Notify the user about the occurred error
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.groups.create_error = function(hook, type, params, value) {
 	if (params.type === 'reply') {

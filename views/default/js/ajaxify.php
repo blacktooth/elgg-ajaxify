@@ -1,7 +1,28 @@
 elgg.provide('elgg.ajaxify');
 
+/**
+ * @fileOverview This file contains helper functions that are used in the rest of this plugin
+ * @author <a href='mailto:ravindhranath@gmail.com'>Ravindra Nath Kakarla</a>
+ * @version 0.2
+ */
+
+/**
+ * @namespace Core ajaxify package
+ */
+
+elgg.ajaxify = elgg.ajaxify || {}
+
+/**
+ * AJAX Loader animation
+ */
+
+elgg.ajaxify.ajaxLoader = $('<div class=elgg-ajax-loader></div>');
+
+/**
+ * Initialization tasks of ajaxify plugin. 
+ */
+
 elgg.ajaxify.init = function() {
-	elgg.ajaxify.ajaxLoader = $('<div class=elgg-ajax-loader></div>');
 
 	//Default actions that have to be invoked after a successful AJAX request
 	$(document).ajaxSuccess(function(event, xhr, options) {
@@ -16,34 +37,6 @@ elgg.ajaxify.init = function() {
 			elgg.system_message(response.system_messages.success);
 		}
 	});
-};
-
-/**
- * Fetch a view via AJAX
- *
- * @example Usage:
- * Use it to fetch a view using /ajax/view
- * can also be used to refresh a view
- * elgg.view('likes/display', {data: {guid: GUID}, target: targetDOM})
- * @param {string} name Viewname
- * @param {Object} options Parameters to the view along with jQuery options {@see jQuery#ajax}
- * @return {void}
- */
-
-elgg.view = function(name, options) {
-	elgg.assertTypeOf('string', name);
-	//Check to see if its already a normalized url
-	if (new RegExp("^(https?://)", "i").test(name)) {
-		name = name.split(elgg.config.wwwroot)[1];
-	}
-	var url = elgg.normalize_url('ajax/view/'+name);
-	if (elgg.isNullOrUndefined(options.success)) {
-		options.manipulationMethod = options.manipulationMethod || 'html';
-		options.success = function(data) {
-			$(options.target)[options.manipulationMethod](data);
-		}
-	}
-	elgg.get(url, options);
 };
 
 /**
@@ -84,15 +77,16 @@ elgg.ajaxify.getViewFromURL = function(value) {
 };
 
 /**
- * Bind form(s) to use jQuery ajaxForm plugin
+ * Bind form(s) to use jQuery ajaxForm plugin.
  * All the three hooks(submit, success, error) are triggered automatically
+ * The value argument to the hook contains all the default arguments that are available
+ * @see http://jquery.malsup.com/form/#options-object
  * 
- * @params forms {Object} An array of jQuery form objects 
- * @params action {String} {create|read|update|delete}
- * @params type {String} type argument of hook handler
- * @params params {Object} params to hook handler
+ * @param forms {Object} An array of jQuery form objects 
+ * @param action {String} {create|read|update|delete}
+ * @param type {String} type argument of hook handler
+ * @param params {Object} params to hook handler
  *
- * The value argument to the hook contains all the default arguments that are available {@see http://jquery.malsup.com/form/#options-object}
  * @return void
  */
 

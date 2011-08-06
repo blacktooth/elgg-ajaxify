@@ -1,6 +1,8 @@
 <?php
 
 function ajaxify_init() {
+	elgg_register_js('ajaxify', 'mod/ajaxify/js/ajaxify.js', 'footer');
+
 	$cached_url = elgg_get_simplecache_url('js', 'ajaxify');
 	elgg_register_js('elgg.ajaxify', $cached_url, 'footer');
 	
@@ -58,6 +60,7 @@ function ajaxify_init() {
 	elgg_load_js('jquery.URLParser');
 	elgg_load_js('jquery.pstrength');
 	elgg_load_js('jquery.autocomplete.html_extension');
+	elgg_load_js('ajaxify');
 	elgg_load_js('elgg.ajaxify');
 	elgg_load_js('elgg.ajaxify.likes');
 	elgg_load_js('elgg.ajaxify.comments');

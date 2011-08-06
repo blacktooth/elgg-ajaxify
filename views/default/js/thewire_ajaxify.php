@@ -1,5 +1,15 @@
 elgg.provide('elgg.ajaxify.thewire');
 
+/**
+ * @namespace
+ */
+
+elgg.ajaxify.thewire = elgg.ajaxify.thewire || {};
+
+/**
+ * Initialize all ajax interfaces of thewire
+ */
+
 elgg.ajaxify.thewire.init = function() {
 	elgg.ajaxify.ajaxForm($('.thewire-form'), 'create', 'thewire', {'type': 'thewire/add'});
 	$('.elgg-menu-item-reply').livequery(function() {
@@ -11,8 +21,16 @@ elgg.ajaxify.thewire.init = function() {
 			$(this).closest('.elgg-item').find('div[id^=elgg-reply-div]').slideUp('fast');
 		});
 	});
-		
 };
+
+/**
+ * Add the new wire post to the entity list. The guid for new post is available from the calling hook 
+ *
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.thewire.create_success = function(hook, type, params, value) {
 	if (params.type === 'thewire/add') {
@@ -52,6 +70,15 @@ elgg.ajaxify.thewire.create_success = function(hook, type, params, value) {
 	}
 };
 
+/**
+ * Show the AJAXLoader before submitting the thewire form
+ *
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.thewire.create_submit = function(hook, type, params, value) {
 	if (params.type === 'thewire/add') {
 		$('.elgg-list-entity').prepend(elgg.ajaxify.ajaxLoader);
@@ -63,6 +90,15 @@ elgg.ajaxify.thewire.create_submit = function(hook, type, params, value) {
 	}
 };
 
+/**
+ * Remove the AJAXLoader and show the reply form for the user to retry
+ *
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.thewire.create_error = function(hook, type, params, value) {
 	if (params.type === 'thewire/reply') {
 		elgg.ajaxify.ajaxLoader.remove();
@@ -71,6 +107,12 @@ elgg.ajaxify.thewire.create_error = function(hook, type, params, value) {
 	}
 
 };
+
+/**
+ * Show the reply form under the corresponding post  
+ *
+ * @param {Object} item Clicked reply menu-item 
+ */
 
 elgg.ajaxify.thewire.show_replyForm = function(item) {
 	var parent_guid = $(item).find('a').url().segment(-1);

@@ -1,6 +1,16 @@
 elgg.provide('elgg.ajaxify.likes');
 
-elgg.ajaxify.likes.init = function(hook, type, params, value) {
+/**
+ * @namespace
+ */
+
+elgg.ajaxify.likes = elgg.ajaxify.likes || {};
+
+/**
+ * Initialize all ajaxify like/unlike actions
+ */
+
+elgg.ajaxify.likes.init = function() {
 	elgg.ajaxify.likes.thumbsUp = 'elgg-icon-thumbs-up';
 	elgg.ajaxify.likes.thumbsUpAlt = 'elgg-icon-thumbs-up-alt';
 
@@ -11,6 +21,16 @@ elgg.ajaxify.likes.init = function(hook, type, params, value) {
 		return false;
 	});
 };
+
+/**
+ * Update the DOM instantaneously and trigger success hook to notify the server about the update.
+ * Triggers error hook to revert the DOM in case the update fails.
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.likes.update_submit = function(hook, type, params, value) {
 	$(value.link).find('span').toggleClass('elgg-icon-thumbs-up elgg-icon-thumbs-up-alt');
@@ -31,6 +51,15 @@ elgg.ajaxify.likes.update_submit = function(hook, type, params, value) {
 	});
 };
 
+/**
+ * Update the likes counter after a successful update.
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.likes.update_success = function(hook, type, params, value) {
 	try {
 		//Get the like counter for updation
@@ -50,6 +79,15 @@ elgg.ajaxify.likes.update_success = function(hook, type, params, value) {
 		}
 	} catch(e) {}
 };
+
+/**
+ * Hook to handle errors when update fails. Reverts the DOM to previous state.
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.likes.update_error = function(hook, type, params, value) {
 	var like_icon = $(value.link).find('span');
