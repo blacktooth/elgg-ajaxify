@@ -1,10 +1,36 @@
 elgg.provide('elgg.ajaxify.refresh');
 
+/**
+ * @namespace
+ */
+
+elgg.ajaxify.refresh = elgg.ajaxify.refresh || {}
+
+/**
+ * Reduce ping interval to this value if the previous ping fails 
+ */
+ 
+elgg.ajaxify.refresh.retryInterval = 1000;
+
+/**
+ * It is set to true if the previous ping fails
+ */
+
+elgg.ajaxify.refresh.pingError = false;
+
+/**
+ * Initialize and start pinging
+ */
+
 elgg.ajaxify.refresh.init = function() {
 	elgg.ajaxify.refresh.setup(elgg.security.interval);
-	elgg.ajaxify.refresh.retryInterval = 1000;
-	elgg.ajaxify.refresh.pingError = false;
 };
+
+/**
+ * Setup the timer and trigger submit, success hooks
+ * @param {Integer} interval Ping interval in milliseconds
+ * @return {void}
+ */
 
 elgg.ajaxify.refresh.setup = function(interval) {
 	elgg.ajaxify.refresh.timer = setInterval(function() {
@@ -30,6 +56,15 @@ elgg.ajaxify.refresh.setup = function(interval) {
 	interval);
 };
 
+/**
+ * Clear old timers and setup new ones with reduced interval in case a ping error occours
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.refresh.ping_error = function(hook, type, params, value) {
 	elgg.ajaxify.refresh.pingError = true;
 
@@ -48,8 +83,17 @@ elgg.ajaxify.refresh.ping_error = function(hook, type, params, value) {
 	}
 };
 
+/**
+ * Reset the timers to normal intervals after a succesful retry
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.refresh.ping_success = function(hook, type, params, value) {
-	//Reset the timer to normal state if connection is back again
+	//Reset the timer to normal state if connection is back
 	if (elgg.ajaxify.refresh.pingError) {
 		elgg.ajaxify.refresh.pingError = false;
 		clearTimeout(elgg.ajaxify.refresh.timer);
@@ -57,6 +101,12 @@ elgg.ajaxify.refresh.ping_success = function(hook, type, params, value) {
 		elgg.system_message(elgg.echo('ping:success'));
 	}
 };
+
+/**
+ * Generate a random combination of alphanumeric characters to distinctly identify each ping source 
+ * 
+ * @return {String} ID randomly generated RequestID
+ */
 
 elgg.ajaxify.refresh.getRequestID = function() {
 	var ID = "";

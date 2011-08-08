@@ -1,6 +1,16 @@
 <script type='text/javascript'>
 elgg.provide('elgg.ajaxify.registration');
 
+/**
+ * @namespace
+ */
+
+elgg.ajaxify.registration = elgg.ajaxify.registration || {}
+
+/**
+ * Bind password and username selectors to AJAX actions
+ */
+
 elgg.ajaxify.registration.init = function() {
 	$('.elgg-form-account input[name=password]').pstrength({
 		'displayMinChar': false,

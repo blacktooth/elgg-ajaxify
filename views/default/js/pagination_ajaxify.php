@@ -1,10 +1,23 @@
 elgg.provide('elgg.ajaxify.pagination');
 
-elgg.ajaxify.pagination.init = function() {
-	//Get context from the viewname (activity, thewire, blog etc.)
-	//(Why?) Activity river stream and entity lists use different DOMs.
-	elgg.ajaxify.pagination.context = elgg.ajaxify.getViewFromURL('activity').split('/')[0];
+/**
+ * @namespace
+ */
 
+elgg.ajaxify.pagination = elgg.ajaxify.pagination || {}
+
+/**
+ * Get context from the viewname (activity, thewire, blog etc.).
+ * (Why?) Activity river stream and entity lists use different DOMs.
+ */
+
+elgg.ajaxify.pagination.context = elgg.ajaxify.getViewFromURL('activity').split('/')[0];
+
+/**
+ * Bind all pagination related selectors to AJAX actions
+ */
+
+elgg.ajaxify.pagination.init = function() {
 	$('.elgg-pagination a').live('click', function(event) {
 		elgg.trigger_hook('read:submit', 'pagination', {'type': elgg.ajaxify.pagination.context}, {
 			'link': $(this)
@@ -16,9 +29,27 @@ elgg.ajaxify.pagination.init = function() {
 	});
 };
 
+/**
+ * Throw up the AJAX Loader while fetching the new page contents
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
+
 elgg.ajaxify.pagination.read_submit = function(hook, type, params, value) {
 	$('.elgg-pagination').before(elgg.ajaxify.ajaxLoader);
 };
+
+/**
+ * Replace the current list with newly fetched items and scroll to the top
+ * 
+ * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
+ * @param {String} type 
+ * @param {Object} params Parameters to pass to the hook
+ * @param {Object} value return value that can be manipulated by the hook
+ */
 
 elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 	//Activity river can be filtered using elgg-river-selector, the filter selected has to be preserved when a next page is requested, 
