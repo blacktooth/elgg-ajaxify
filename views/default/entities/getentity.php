@@ -1,9 +1,7 @@
 <?php
 /**
  * View for serving entities via AJAX
- *
  */
-//Incomplete
 if (elgg_is_xhr()) {
 	$subtype = get_input('subtype');
 	$guid = get_input('guid');
