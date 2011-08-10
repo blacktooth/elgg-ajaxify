@@ -23,6 +23,7 @@ elgg.ajaxify.ajaxLoader = $('<div class=elgg-ajax-loader></div>');
  */
 
 elgg.ajaxify.init = function() {
+	elgg.load_registry();
 
 	//Default actions that have to be invoked after a successful AJAX request
 	$(document).ajaxSuccess(function(event, xhr, options) {

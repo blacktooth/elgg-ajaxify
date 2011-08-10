@@ -1,6 +1,6 @@
-/**
- * Experimental ajaxy features/API!
- */
+elgg.provide('elgg.js');
+
+elgg.provide('elgg.css');
 
 /**
  * Fetch a view via AJAX
@@ -28,6 +28,50 @@ elgg.view = function(name, options) {
 		}
 	}
 	elgg.get(url, options);
+};
+
+/**
+ * Make a client-side registry of all available JavaScript libraries
+ */
+
+elgg.js.registry = '';
+
+/**
+ * Make a client-side registry of all available CSS 
+ */
+
+elgg.css.registry = '';
+
+/**
+ * Fill the js and css registries
+ */
+
+elgg.load_registry = function() {
+	elgg.view('registry/externals', {
+		dataType: 'json',
+		success: function(response) {
+			elgg.js.registry = response.js;
+			elgg.css.registry = response.css;
+		}
+	});
+};
+
+/**
+ * Loads a registered JavaScript library
+ *
+ * @usage elgg.js.load('elgg.ajaxify.refresh')
+ * @param {String} lib Registered library shorthand
+ * @return void
+ */
+
+elgg.js.load = function(lib) {
+	elgg.assertTypeOf('string', lib);
+	//Check if the library is already loaded
+	if (elgg.js.registry[lib] && !elgg.js.registry[lib].loaded) {
+		$.getScript(elgg.js.registry[lib].url, function() {
+			elgg.js.registry[lib].loaded = true;
+		});
+	}
 };
 
 /**
