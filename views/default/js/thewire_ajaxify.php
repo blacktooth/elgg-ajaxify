@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.thewire');
 
 /**
+ * @name elgg.ajaxify.thewire
  * @namespace
  */
 
-elgg.ajaxify.thewire = elgg.ajaxify.thewire || {};
+elgg.ajaxify.thewire;
 
 /**
  * Initialize all ajax interfaces of thewire

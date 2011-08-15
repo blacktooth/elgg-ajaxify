@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.pagination');
 
 /**
+ * @name elgg.ajaxify.pagination
  * @namespace
  */
 
-elgg.ajaxify.pagination = elgg.ajaxify.pagination || {}
+elgg.ajaxify.pagination;
 
 /**
  * Get context from the viewname (activity, thewire, blog etc.).

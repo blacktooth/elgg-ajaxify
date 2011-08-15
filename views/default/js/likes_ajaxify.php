@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.likes');
 
 /**
+ * @name elgg.ajaxify.likes
  * @namespace
  */
 
-elgg.ajaxify.likes = elgg.ajaxify.likes || {};
+elgg.ajaxify.likes;
 
 /**
  * Initialize all ajaxify like/unlike actions

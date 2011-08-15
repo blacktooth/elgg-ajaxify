@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.refresh');
 
 /**
+ * @name elgg.ajaxify.refresh
  * @namespace
  */
 
-elgg.ajaxify.refresh = elgg.ajaxify.refresh || {}
+elgg.ajaxify.refresh;
 
 /**
  * Reduce ping interval to this value if the previous ping fails 

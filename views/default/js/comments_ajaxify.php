@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.comments');
 
 /**
+ * @name elgg.ajaxify.comments
  * @namespace
  */
 
-elgg.ajaxify.comments = elgg.ajaxify.comments || {};
+elgg.ajaxify.comments;
 
 /**
  * Limit the number of comments which are fetched on clicking 'more'. This avoids flooding of whole page if there is a long list.

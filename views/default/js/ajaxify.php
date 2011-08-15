@@ -7,10 +7,11 @@ elgg.provide('elgg.ajaxify');
  */
 
 /**
+ * @name elgg.ajaxify
  * @namespace Core ajaxify package
  */
 
-elgg.ajaxify = elgg.ajaxify || {}
+elgg.ajaxify;
 
 /**
  * AJAX Loader animation

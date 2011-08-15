@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.profile');
 
 /**
+ * @name elgg.ajaxify.profile
  * @namespace
  */
 
-elgg.ajaxify.profile = elgg.ajaxify.profile || {}
+elgg.ajaxify.profile;
 
 /**
  * Binds the links/forms on the profile page to AJAX actions

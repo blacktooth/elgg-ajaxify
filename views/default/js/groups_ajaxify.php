@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.groups');
 
 /**
+ * @name elgg.ajaxify.groups
  * @namespace 
  */
 
-elgg.ajaxify.groups = elgg.ajaxify.groups || {};
+elgg.ajaxify.groups;
 
 /**
  * All groups plugin related initializations

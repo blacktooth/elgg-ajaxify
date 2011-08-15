@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.messages');
 
 /**
+ * @name elgg.ajaxify.messages
  * @namespace
  */
 
-elgg.ajaxify.messages = elgg.ajaxify.messages || {}
+elgg.ajaxify.messages;
 
 /**
  * All messages plugin related initializations

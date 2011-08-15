@@ -1,10 +1,11 @@
 elgg.provide('elgg.ajaxify.bookmarks');
 
 /**
+ * @name elgg.ajaxify.bookmarks
  * @namespace 
  */
 
-elgg.ajaxify.bookmarks = elgg.ajaxify.bookmarks || {};
+elgg.ajaxify.bookmarks;
 
 /**
  * All bookmarks related initializations

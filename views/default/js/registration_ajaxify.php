@@ -2,10 +2,11 @@
 elgg.provide('elgg.ajaxify.registration');
 
 /**
+ * @name elgg.ajaxify.registration
  * @namespace
  */
 
-elgg.ajaxify.registration = elgg.ajaxify.registration || {}
+elgg.ajaxify.registration;
 
 /**
  * Bind password and username selectors to AJAX actions
