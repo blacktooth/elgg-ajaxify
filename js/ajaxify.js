@@ -34,27 +34,13 @@ elgg.view = function(name, options) {
  * Make a client-side registry of all available JavaScript libraries
  */
 
-elgg.js.registry = '';
+elgg.js.registry = elgg.js.registry || '';
 
 /**
  * Make a client-side registry of all available CSS 
  */
 
-elgg.css.registry = '';
-
-/**
- * Fill the js and css registries
- */
-
-elgg.load_registry = function() {
-	elgg.view('registry/externals', {
-		dataType: 'json',
-		success: function(response) {
-			elgg.js.registry = response.js;
-			elgg.css.registry = response.css;
-		}
-	});
-};
+elgg.css.registry = elgg.css.registry || '';
 
 /**
  * Loads a registered JavaScript library
