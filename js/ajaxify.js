@@ -61,6 +61,51 @@ elgg.js.load = function(lib) {
 };
 
 /**
+ * Generate a random combination of alphanumeric characters to distinctly identify each ping source 
+ * 
+ * @return {String} ID randomly generated RequestID
+ */
+
+elgg.getRequestID = function() {
+	var ID = "";
+	var universe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (var i = 0; i < 8; i++) {
+		ID += universe.charAt(Math.floor(Math.random() * universe.length));
+	}
+	return ID;
+};
+
+/**
+ * Contains a map of requestIDs and corresponding handlers
+ */
+
+__elgg_request_handlers = {};
+
+/**
+ * Collection of all client requests to send during a ping
+ */
+
+__elgg_client_requests = {};
+
+/**
+ * Register to request updates from server
+ * 
+ * @param {String} command Used to identify the type of request at server end. It can be {view|action or any other special keyword}
+ * @param {Object} params view|action name and parameters to pass to it
+ * @param {function} handler Handler to call on successful request
+ */
+
+elgg.request = function(command, params, handler) {
+	elgg.assertTypeOf('string', command);
+	elgg.assertTypeOf('function', handler);
+
+	var requestID = elgg.getRequestID();
+	__elgg_request_handlers[requestID] = handler;
+	__elgg_client_requests[requestID] = [command, params];
+};
+
+/**
  * Deletes an annotation
  *
  * @param id The annotation's id

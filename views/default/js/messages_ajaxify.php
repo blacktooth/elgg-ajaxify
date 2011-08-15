@@ -14,6 +14,7 @@ elgg.ajaxify.messages;
 elgg.ajaxify.messages.init = function() {
 	elgg.ajaxify.messages.msg_counter = $('.elgg-menu-item-messages').find('.messages-new');
 	elgg.ajaxify.ajaxForm($('#messages-inbox-form'), 'update', 'messages', {'type': 'inbox'});
+	elgg.request('view', {name: 'messages/count'}, elgg.ajaxify.messages.updateCounter);
 };
 
 /**
@@ -75,45 +76,22 @@ elgg.ajaxify.messages.update_error = function(hook, type, params, value) {
 	}
 };
 
-/**
- * Ping the message counter view to get updates on new messages
- * 
- * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
- * @param {String} type 
- * @param {Object} params Parameters to pass to the hook
- * @param {Object} value return value that can be manipulated by the hook
- */
-
-elgg.ajaxify.messages.ping_submit = function(hook, type, params, value) {
-	elgg.ajaxify.messages.requestID = elgg.ajaxify.refresh.getRequestID();
-	value[elgg.ajaxify.messages.requestID] = ['view', {
-		name: 'messages/count'
-	}];
-	return value;
-};
 
 /**
  * Update the message notifier icon if a new message arrives during the ping
  * 
- * @param {String} hook {create|read|update|delete|ping}:{submit|success|error}
- * @param {String} type 
- * @param {Object} params Parameters to pass to the hook
- * @param {Object} value return value that can be manipulated by the hook
+ * @param {String} unread
  */
 
-elgg.ajaxify.messages.ping_success = function(hook, type, params, value) {
-	var unread = value.__elgg_client_results[elgg.ajaxify.messages.requestID];
+elgg.ajaxify.messages.updateCounter = function(unread) {
 	if (elgg.ajaxify.messages.msg_counter.length > 0) {
 		$('.elgg-menu-item-messages').find('.messages-new').replaceWith(unread);
 	} else {
 		$('.elgg-menu-item-messages a').append(unread);
 	}
-	
 };
 
 elgg.register_hook_handler('update:submit', 'messages', elgg.ajaxify.messages.update_submit); 
 elgg.register_hook_handler('update:success', 'messages', elgg.ajaxify.messages.update_success); 
 elgg.register_hook_handler('update:error', 'messages', elgg.ajaxify.messages.update_error); 
-elgg.register_hook_handler('ping:submit', 'system', elgg.ajaxify.messages.ping_submit); 
-elgg.register_hook_handler('ping:success', 'system', elgg.ajaxify.messages.ping_success); 
 elgg.register_hook_handler('init', 'system', elgg.ajaxify.messages.init);
