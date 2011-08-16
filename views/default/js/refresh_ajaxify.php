@@ -41,9 +41,7 @@ elgg.ajaxify.refresh.setup = function(interval) {
 				__elgg_client_requests: __elgg_client_requests
 			},
 			success: function(response) {
-				for (var requestID in __elgg_request_handlers) {
-					__elgg_request_handlers[requestID](response[requestID]);
-				}
+				elgg.ajaxify.refresh.ping_success(response);
 			},
 			error: function(xhr, textStatus, errorThrown) {
 				elgg.ajaxify.refresh.ping_error({
@@ -87,6 +85,9 @@ elgg.ajaxify.refresh.ping_error = function(error) {
  */
 
 elgg.ajaxify.refresh.ping_success = function(response) {
+	for (var requestID in __elgg_request_handlers) {
+		__elgg_request_handlers[requestID](response[requestID]);
+	}
 	//Reset the timer to normal state if connection is back
 	if (elgg.ajaxify.refresh.pingError) {
 		elgg.ajaxify.refresh.pingError = false;
