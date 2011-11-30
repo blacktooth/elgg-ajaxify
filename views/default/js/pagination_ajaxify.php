@@ -77,7 +77,9 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 		elgg.view('entities/getentity', {
 			cache: false,
 			data: {
-				subtype: elgg.ajaxify.pagination.context,
+				//Groups have different type
+				type: (elgg.ajaxify.pagination.context === 'groups')?'group':'object',
+				subtype: (elgg.ajaxify.pagination.context === 'groups')?undefined:elgg.ajaxify.pagination.context,
 				limit: 15,
 				page_type: elgg.ajaxify.getViewFromURL('').split('/')[1] || '',
 				pagination: 'TRUE',
