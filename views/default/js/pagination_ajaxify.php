@@ -73,14 +73,29 @@ elgg.ajaxify.pagination.read_success = function(hook, type, params, value) {
 				$('body').animate({scrollTop: 0}, 'slow');
 			}
 		});
+	//Groups have to be handled differently
+	} else if (params.type === 'groups') {
+		elgg.view('groups/getgroups', {
+			cache: false,
+			data: {
+				filter: $.url().param('filter'),
+			},
+			success: function(response) {
+				var newList = $(response)[0];
+				var newPagination = $(response)[1];
+				$('.elgg-list-entity').replaceWith(newList);
+				$('.elgg-pagination').replaceWith(newPagination);
+				$(elgg.ajaxify.ajaxLoader).remove();
+				$('body').animate({scrollTop: 0}, 'slow');
+			}
+		});
 	} else {
 		elgg.view('entities/getentity', {
 			cache: false,
 			data: {
-				//Groups have different type
-				type: (elgg.ajaxify.pagination.context === 'groups')?'group':'object',
-				subtype: (elgg.ajaxify.pagination.context === 'groups')?undefined:elgg.ajaxify.pagination.context,
-				limit: 15,
+				type: 'object',
+				subtype: elgg.ajaxify.pagination.context,
+				limit: 10,
 				page_type: elgg.ajaxify.getViewFromURL('').split('/')[1] || '',
 				pagination: 'TRUE',
 				offset: $(value.link).url().param('offset') || ''
